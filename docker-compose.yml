@@ -1,0 +1,44 @@
+# Local development services.
+#   docker compose up -d                 -> start Postgres only (run the API with `go run`)
+#   docker compose --profile api up -d --build
+#                                        -> start Postgres + Go API in Docker (no Go install needed)
+#   docker compose --profile api down    -> stop everything (data kept in the named volume)
+#   docker compose down -v               -> stop AND delete data
+services:
+  api:
+    profiles: ["api"]          # only started when you pass --profile api
+    build:
+      context: ./backend
+    container_name: dehub-api
+    environment:
+      APP_ENV: dev
+      HTTP_ADDR: ":8080"
+      # Inside the Docker network, Postgres is reachable by its service name "postgres",
+      # not "localhost" (localhost would mean the api container itself).
+      DATABASE_URL: postgres://${POSTGRES_USER:-dehub}:${POSTGRES_PASSWORD:-dehub}@postgres:5432/${POSTGRES_DB:-dehub}?sslmode=disable
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy   # wait until pg_isready passes
+
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: dehub-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dehub}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dehub}
+      POSTGRES_DB: ${POSTGRES_DB:-dehub}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

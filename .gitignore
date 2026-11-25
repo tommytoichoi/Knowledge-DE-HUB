@@ -1,0 +1,30 @@
+# Secrets / local config
+.env
+.env.*
+!.env.example
+
+# Go
+backend/bin/
+*.exe
+*.test
+*.out
+coverage.*
+
+# DuckDB files (analytics store, rebuilt from Postgres/content)
+*.duckdb
+*.duckdb.wal
+
+# Node / frontend
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# Editors / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Obsidian (if content/ is opened as a vault)
+.obsidian/
