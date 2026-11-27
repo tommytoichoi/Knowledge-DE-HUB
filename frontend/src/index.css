@@ -12,7 +12,7 @@
 
 /*
  * DE Hub design tokens — see docs/design-system.md
- * Palette: Slate + Blue · Shape: Bento · Fonts: Inter / Cormorant Garamond / JetBrains Mono
+ * Palette: Espresso Library (warm neutrals) + Blue accent · Shape: Bento · Fonts: Inter / Cormorant Garamond / JetBrains Mono
  */
 @theme inline {
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
@@ -61,79 +61,79 @@
   --radius-4xl: calc(var(--radius) * 2.5);
 }
 
-/* Light — Slate + Blue */
+/* Light — Espresso Library: old-paper background, ink-brown text, blue accent */
 :root {
   --radius: 1rem;
 
-  --background: #f8fafc;          /* slate-50 */
-  --foreground: #1e293b;          /* slate-800 */
-  --card: #ffffff;
-  --card-foreground: #1e293b;
-  --popover: #ffffff;
-  --popover-foreground: #1e293b;
-  --primary: #2563eb;             /* blue-600 — CTA, links, active state */
+  --background: #f5f0e6;          /* old paper */
+  --foreground: #2b2420;          /* ink brown */
+  --card: #fbf8f2;
+  --card-foreground: #2b2420;
+  --popover: #fbf8f2;
+  --popover-foreground: #2b2420;
+  --primary: #1d4ed8;             /* blue-700 — 6:1 on paper (blue-600 would be 4.3:1) */
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;           /* slate-100 */
-  --secondary-foreground: #334155;
-  --muted: #eaeff3;
-  --muted-foreground: #475569;    /* slate-600 — 7.2:1 on background */
-  --accent: #eff6ff;              /* blue-50 — hover tint */
-  --accent-foreground: #1e40af;
-  --destructive: #dc2626;
-  --border: #e2e8f0;              /* slate-200 */
-  --input: #e2e8f0;
-  --ring: #2563eb;
+  --secondary: #ede6d9;
+  --secondary-foreground: #3d342d;
+  --muted: #e9e1d3;
+  --muted-foreground: #6b5d50;    /* 5.6:1 on background */
+  --accent: #e6ecf8;              /* blue tint on paper — hover */
+  --accent-foreground: #1e3a8a;
+  --destructive: #b91c1c;
+  --border: #e2d8c7;
+  --input: #e2d8c7;
+  --ring: #1d4ed8;
 
-  --chart-1: #2563eb;
+  --chart-1: #1d4ed8;
   --chart-2: #60a5fa;
-  --chart-3: #475569;
-  --chart-4: #94a3b8;
+  --chart-3: #8a6f55;
+  --chart-4: #c4b39c;
   --chart-5: #1e3a8a;
 
-  --sidebar: #ffffff;
-  --sidebar-foreground: #1e293b;
-  --sidebar-primary: #2563eb;
+  --sidebar: #fbf8f2;
+  --sidebar-foreground: #2b2420;
+  --sidebar-primary: #1d4ed8;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #eff6ff;
-  --sidebar-accent-foreground: #1e40af;
-  --sidebar-border: #e2e8f0;
-  --sidebar-ring: #2563eb;
+  --sidebar-accent: #e6ecf8;
+  --sidebar-accent-foreground: #1e3a8a;
+  --sidebar-border: #e2d8c7;
+  --sidebar-ring: #1d4ed8;
 }
 
-/* Dark — deep slate + soft blue */
+/* Dark — Espresso Library: warm espresso background, cream text, soft blue accent */
 .dark {
-  --background: #0b1120;
-  --foreground: #e2e8f0;          /* slate-200 */
-  --card: #111a2e;
-  --card-foreground: #e2e8f0;
-  --popover: #111a2e;
-  --popover-foreground: #e2e8f0;
-  --primary: #60a5fa;             /* blue-400 */
-  --primary-foreground: #0b1120;
-  --secondary: #1e293b;
-  --secondary-foreground: #e2e8f0;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;    /* slate-400 — 7:1 on background */
-  --accent: #172554;              /* blue-950 */
+  --background: #15110e;          /* espresso */
+  --foreground: #ede6da;          /* cream */
+  --card: #1e1915;
+  --card-foreground: #ede6da;
+  --popover: #1e1915;
+  --popover-foreground: #ede6da;
+  --primary: #60a5fa;             /* blue-400 — 7:1 on background */
+  --primary-foreground: #15110e;
+  --secondary: #2a231d;
+  --secondary-foreground: #ede6da;
+  --muted: #2a231d;
+  --muted-foreground: #a8998a;    /* 6.8:1 on background */
+  --accent: #1c2a44;              /* blue tint on espresso — hover */
   --accent-foreground: #bfdbfe;
   --destructive: #f87171;
-  --border: #1e293b;
-  --input: #334155;
+  --border: #2e2620;
+  --input: #3a3129;
   --ring: #60a5fa;
 
   --chart-1: #60a5fa;
   --chart-2: #2563eb;
-  --chart-3: #94a3b8;
-  --chart-4: #475569;
+  --chart-3: #a8998a;
+  --chart-4: #6b5d50;
   --chart-5: #bfdbfe;
 
-  --sidebar: #111a2e;
-  --sidebar-foreground: #e2e8f0;
+  --sidebar: #1e1915;
+  --sidebar-foreground: #ede6da;
   --sidebar-primary: #60a5fa;
-  --sidebar-primary-foreground: #0b1120;
-  --sidebar-accent: #172554;
+  --sidebar-primary-foreground: #15110e;
+  --sidebar-accent: #1c2a44;
   --sidebar-accent-foreground: #bfdbfe;
-  --sidebar-border: #1e293b;
+  --sidebar-border: #2e2620;
   --sidebar-ring: #60a5fa;
 }
 
@@ -156,6 +156,6 @@
 @layer components {
   /* Bento card: large radius, hairline border, very soft shadow */
   .bento {
-    @apply rounded-2xl border bg-card text-card-foreground shadow-[0_1px_2px_rgb(15_23_42/0.04),0_4px_12px_rgb(15_23_42/0.04)];
+    @apply rounded-2xl border bg-card text-card-foreground shadow-[0_1px_2px_rgb(43_36_32/0.05),0_4px_12px_rgb(43_36_32/0.05)];
   }
 }

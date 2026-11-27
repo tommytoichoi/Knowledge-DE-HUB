@@ -142,6 +142,11 @@ export default function BookCarousel3D({
 
         const spine = el.querySelector<HTMLElement>('.bc-spine')
         if (spine) spine.style.filter = `brightness(${0.6 + eo * 0.4})`
+
+        // Text covers squash into unreadable scribbles when seen edge-on — fade them out
+        // while the book shows its spine, fade in as it turns to face us.
+        const cover = el.querySelector<HTMLElement>('.bc-cover')
+        if (cover) cover.style.opacity = String(Math.max(0, (eo - 0.35) / 0.65))
       })
 
       if (progressRef.current) {
@@ -349,7 +354,7 @@ const CSS = `
 :root { --bc-text: var(--foreground, #1a1a1a); }
 
 .bc-header {
-  position: absolute; bottom: calc(4% + 420px); left: 0; width: 100%;
+  position: absolute; bottom: calc(var(--bc-bottom, 9%) + 430px * var(--bc-scale, 1)); left: 0; width: 100%;
   text-align: center; z-index: 10; pointer-events: none;
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
@@ -359,7 +364,7 @@ const CSS = `
   text-transform: uppercase; color: var(--muted-foreground); margin-bottom: 8px;
 }
 .bc-title {
-  font-family: var(--font-display); font-size: 34px; font-weight: 500;
+  font-family: var(--font-display); font-size: calc(34px * max(var(--bc-scale, 1), 0.75)); font-weight: 500;
   letter-spacing: 0.5px; margin: 0; color: var(--bc-text); line-height: 1.1;
 }
 
@@ -386,8 +391,11 @@ const CSS = `
 
 .bc-scene { position: absolute; inset: 0; perspective: 3000px; overflow: hidden; }
 .bc-track {
-  position: absolute; bottom: 9%; left: 50%;
+  position: absolute; bottom: var(--bc-bottom, 9%); left: 50%;
   transform-style: preserve-3d; will-change: transform;
+  /* --bc-scale lets the page shrink the whole shelf on short viewports */
+  transform: scale3d(var(--bc-scale, 1), var(--bc-scale, 1), var(--bc-scale, 1));
+  transform-origin: 0 100%;
 }
 
 .bc-wrapper {
@@ -413,12 +421,12 @@ const CSS = `
 .bc-front { width: 100%; height: 100%; top: 0; left: 0; border-radius: 2px 6px 6px 2px; }
 .bc-inside {
   width: 100%; height: 100%; top: 0; left: 0;
-  background: #e2e8f0; transform: rotateY(180deg) translateZ(1px);
+  background: #e9e1d3; transform: rotateY(180deg) translateZ(1px);
   background-image: linear-gradient(to right, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 10%);
 }
 .bc-page {
   width: 236px; height: calc(100% - 4px); top: 2px; left: 2px;
-  background: #fdfdfb; color: #1e293b; box-sizing: border-box;
+  background: #fbf8f1; color: #2b2420; box-sizing: border-box;
   box-shadow: inset -5px 0 10px rgba(0,0,0,0.02); border-radius: 1px 4px 4px 1px;
 }
 .bc-page-inner { width: 100%; height: 100%; padding: 22px; box-sizing: border-box; display: flex; flex-direction: column; }
@@ -475,7 +483,7 @@ const CSS = `
                    box-shadow: 0 0 15px 5px rgba(0,0,0,0.2); }
 
 .bc-progress {
-  position: absolute; bottom: 4%; left: 50%; transform: translateX(-50%);
+  position: absolute; bottom: calc(var(--bc-bottom, 9%) - 28px); left: 50%; transform: translateX(-50%);
   width: 200px; height: 2px; background: color-mix(in srgb, var(--bc-text) 12%, transparent); z-index: 20;
   border-radius: 2px; overflow: hidden;
 }
@@ -485,8 +493,6 @@ const CSS = `
   .bc-progress { width: 140px; }
 }
 @media (max-width: 600px) {
-  .bc-header { bottom: calc(9% + 400px); }
-  .bc-title { font-size: 26px; }
   .bc-close { right: 16px; }
   .bc-scene { perspective: 2000px; }
 }

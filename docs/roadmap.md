@@ -31,8 +31,10 @@
 
 ## Phase 3 — Public
 
-- [ ] Auth (session cookies, then GitHub OAuth)
-- [ ] Web editor for notes (needs an ADR: write back to Git vs. DB-owned)
+- [x] Role-based areas in the UI: guest / user (`/me`) / admin (`/admin`), route guards, mock sign-in — see [roles.md](roles.md)
+- [ ] Define what each role can do inside its area
+- [ ] Real auth in the Go API (session cookies, then GitHub OAuth) — contract in [roles.md](roles.md)
+- [ ] Admin content editor (DB-owned content — [ADR-0003](adr/0003-postgres-owns-content.md)); backend backlog in [backend-tickets.md](backend-tickets.md)
 - [ ] OpenAPI spec + generated TS client
 - [ ] Single-binary deploy (`go:embed` the frontend), hosting + managed Postgres
 

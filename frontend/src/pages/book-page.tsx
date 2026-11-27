@@ -1,5 +1,6 @@
 import { getRouteApi, Link } from '@tanstack/react-router'
 import { ArrowLeft, ArrowRight, FilePlus2 } from 'lucide-react'
+import { AccountMenu } from '@/components/account-menu'
 import { ApiStatus } from '@/components/api-status'
 import { Markdown } from '@/components/markdown'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -46,6 +47,7 @@ export function BookPage() {
           <div className="ml-auto flex items-center gap-2">
             <ApiStatus className="hidden sm:inline-flex" />
             <ThemeToggle />
+            <AccountMenu />
           </div>
         </div>
       </header>

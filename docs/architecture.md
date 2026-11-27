@@ -22,7 +22,7 @@ A secondary goal is **learning the tech stack itself** (Go, React, PostgreSQL, D
 | Backend | Go, `net/http` + [chi](https://github.com/go-chi/chi), `log/slog` | Small, explicit, close to the standard library |
 | OLTP store | PostgreSQL ([pgx](https://github.com/jackc/pgx)) | App data: notes, users, progress, quiz attempts — see [ADR-0001](adr/0001-postgres-oltp-duckdb-olap.md) |
 | OLAP store | DuckDB | Analytics, full-text search, SQL playground datasets |
-| Content | Markdown files in `content/` | Source of truth, versioned in Git — see [ADR-0002](adr/0002-markdown-as-source-of-truth.md) |
+| Content | PostgreSQL (`books`, `chapters`); Markdown in `content/` is the import format | Admins edit content in the UI — see [ADR-0003](adr/0003-postgres-owns-content.md) |
 | Local infra | Docker Compose | One command to start Postgres (and later lab services) |
 | CI | GitHub Actions | gofmt, vet, test, build + eslint, build |
 
@@ -30,7 +30,8 @@ A secondary goal is **learning the tech stack itself** (Go, React, PostgreSQL, D
 
 ```mermaid
 flowchart LR
-    MD["content/*.md<br/>(written in VSCode / Obsidian)"] -->|"cmd/ingest<br/>(parse frontmatter + body)"| PG[("PostgreSQL<br/>OLTP")]
+    MD["content/*.md<br/>(seed / bulk import)"] -->|"cmd/ingest<br/>(parse frontmatter + body)"| PG[("PostgreSQL<br/>OLTP · owns content")]
+    ADM["Admin UI"] -->|"content CRUD"| API
     FE["React SPA"] -->|"REST /api/v1"| API["Go API"]
     API -->|"read / write"| PG
     PG -->|"sync job<br/>(DuckDB postgres extension)"| DDB[("DuckDB<br/>OLAP")]
@@ -38,8 +39,9 @@ flowchart LR
     FE -.->|"SQL Playground<br/>(Phase 2)"| WASM["DuckDB-WASM<br/>in the browser"]
 ```
 
-- **Write path (OLTP):** the ingest command upserts notes into Postgres; the API writes
-  user actions (progress, quiz attempts) to Postgres. Many small transactions → row store.
+- **Write path (OLTP):** admins create and edit books/chapters through the API; `cmd/ingest`
+  seeds or bulk-imports Markdown. User actions (progress, quiz attempts) also go to Postgres.
+  Many small transactions → row store.
 - **Read/analyze path (OLAP):** a sync job copies Postgres tables into DuckDB; the API
   queries DuckDB for aggregations ("weakest topics this month") and search. Few big
   scans → column store.

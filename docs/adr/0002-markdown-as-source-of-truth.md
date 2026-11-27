@@ -1,6 +1,6 @@
 # ADR-0002: Markdown files in Git are the source of truth for notes
 
-- **Status:** Accepted
+- **Status:** Superseded by [ADR-0003](0003-postgres-owns-content.md) (2026-11-27) — admins edit content in the UI, so PostgreSQL owns it
 - **Date:** 2026-11-25
 
 ## Context
